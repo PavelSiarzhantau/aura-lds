@@ -1,0 +1,36 @@
+<!-- Information about targetFields -->
+<!-- https://developer.salesforce.com/forums/?id=9062I000000Xo5UQAS -->
+<!-- https://salesforce.stackexchange.com/questions/203832/confused-on-forcerecorddata -->
+
+<aura:component implements="flexipage:availableForRecordHome, force:hasRecordId">
+    <aura:attribute name="record" type="Object" description="The record object to be displayed" />
+    <aura:attribute name="accountError" type="String" description="An error message bound to force:recordData" />
+    <aura:attribute name="accountRecord" type="Object" description="A simplified view record object to be displayed" />
+
+    <force:recordData aura:id="record"
+                      fields="Name, Industry, Description, Phone"
+                      recordId="{!v.recordId}"
+                      mode="VIEW"
+                      targetError="{!v.accountError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.accountRecord}"/>
+    <lightning:card iconName="standard:account" title="{!v.accountRecord.Name}">
+        <div class="slds-p-horizontal--small">
+            <p class="slds-text-heading--small">
+              <lightning:formattedText title="Industry" value="{!v.accountRecord.Industry}" />
+            </p>
+            <p class="slds-text-heading--small">
+              <lightning:formattedText title="Description" value="{!v.accountRecord.Description}" />
+            </p>
+            <p class="slds-text-heading--small">
+              <lightning:formattedPhone title="Phone" value="{!v.accountRecord.Phone}" />
+            </p>
+          </div>
+    </lightning:card>
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.accountError))}">
+        <div class="accountError">
+            {!v.accountError}
+        </div>
+    </aura:if>
+</aura:component>
